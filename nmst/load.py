@@ -1,3 +1,5 @@
+"""Functions for loading and updating the match database."""
+
 import csv
 from datetime import datetime, timedelta
 import os
@@ -8,6 +10,7 @@ import pandas as pd
 from . import config
 
 def update_db():
+    """Fetch the current version of the database from the Google Sheet."""
     spreadsheet_id = config['sheet']['spreadsheet_id']
     sheet_id = config['sheet']['sheet_id']
 
@@ -20,7 +23,7 @@ def update_db():
     with urllib.request.urlopen(db_url) as response:
         print('Success! Writing database to file...')
         # TODO: implement checks to prevent downloading malformed data
-        with open(config['db']['path'], 'wb') as f:
+        with open(config['db']['path'], 'wb', encoding='utf-8') as f:
             f.write(response.read())
     # update config with update time
     config['db']['last_update_time'] = update_time.isoformat()
@@ -46,13 +49,15 @@ def _auto_update():
         return
 
 def load_as_df():
+    """Load the match database as a pandas dataframe."""
     _auto_update()
     df = pd.read_csv(config['db']['path'])
     df.set_index('Game ID', inplace=True)
     return df
 
 def load_as_list():
+    """Load the match database as a 2-dimensional list."""
     _auto_update()
-    with open(config['db']['path'], 'r') as file:
+    with open(config['db']['path'], 'r', encoding='utf-8') as file:
         reader = csv.reader(file)
         return list(reader)
