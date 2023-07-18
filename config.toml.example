@@ -4,7 +4,7 @@
 [db]
 
 # Path to the csv containing all matches
-path = "matchdb/db.csv"
+path = matchdb/db.csv
 
 # Date of the last database update. Automatically handled
 last_update_time = 2023-01-01
