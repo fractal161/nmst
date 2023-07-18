@@ -48,11 +48,19 @@ def _auto_update():
         update_db()
         return
 
-def load_as_df():
+def load_as_df(*, exclude_faster=True):
     """Load the match database as a pandas dataframe."""
     _auto_update()
-    df = pd.read_csv(config['db']['path'])
-    df.set_index('Game ID', inplace=True)
+    dtypes: dict[str, str] = {}
+    for col in ['Players', 'Playstyle', 'Won?', 'Topout Type', 'Cap', 'SPS',
+                'Lvl Start', 'Event', 'Round', 'Game Link', 'Match Pairing']:
+        dtypes[col] = 'category'
+    df = pd.read_csv(config['db']['path'],
+                     dtype=dtypes,
+                     index_col='Game ID')
+    # use column types to reduce memory usage
+    if exclude_faster:
+        df = df[df['Event'] != 'May 2023 Faster Masters']
     return df
 
 def load_as_list():
