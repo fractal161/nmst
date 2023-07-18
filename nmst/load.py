@@ -11,7 +11,8 @@ def update_db():
     spreadsheet_id = config['sheet']['spreadsheet_id']
     sheet_id = config['sheet']['sheet_id']
 
-    db_url = f'https://docs.google.com/spreadsheets/d/{spreadsheet_id}/export?format=csv&gid={sheet_id}'
+    db_url = ('https://docs.google.com/spreadsheets/d/'
+              f'{spreadsheet_id}/export?format=csv&gid={sheet_id}')
     print('Establishing connection to Google Sheets...')
     # TODO: show download progress if possible
     # Idea: https://stackoverflow.com/a/1517728
@@ -39,15 +40,15 @@ def _auto_update():
     current_time = datetime.now()
     threshold = int(config['db']['auto_update_threshold'])
     if current_time - last_update_time > timedelta(hours=threshold):
-        print(f'{threshold} hours since last update, attempting to download database...')
+        print(f'At least {threshold} hours since last update, '
+              'attempting to download database...')
         update_db()
         return
 
 def load_as_df():
     _auto_update()
     df = pd.read_csv(config['db']['path'])
-    df.set_index('Game ID')
-    print(df.index)
+    df.set_index('Game ID', inplace=True)
     return df
 
 def load_as_list():
