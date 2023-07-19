@@ -23,7 +23,7 @@ def update_db():
     with urllib.request.urlopen(db_url) as response:
         print('Success! Writing database to file...')
         # TODO: implement checks to prevent downloading malformed data
-        with open(config['db']['path'], 'wb', encoding='utf-8') as f:
+        with open(config['db']['path'], 'wb') as f:
             f.write(response.read())
     # update config with update time
     config['db']['last_update_time'] = update_time.isoformat()
