@@ -4,6 +4,7 @@ import pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
 import pandas as pd
+import webview
 
 from nmst.load import load_as_df
 from nmst.headers import *
@@ -56,11 +57,9 @@ def print_table():
             high_score_rows.index.isin(board.index)]
             .apply(lambda row : 'Watch: {}'.format(row[GAME_LINK]), axis=1))
 
-    print(board)
+    webview.create_window('table', html=board.to_html())
+    webview.start()
 
 if __name__ == '__main__':
     pd.set_option('display.max_rows', None)
     print_table()
-
-# first goal: replicate the highest median score leaderboard
-# fields: players, median score, # games, median 19 trans, median 29 trans, best game

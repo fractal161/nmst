@@ -11,7 +11,8 @@ Since this is a python project, the first thing you'll need is a working install
 After this, you'll need the following libraries:
 
  - [pandas](https://pandas.pydata.org/), a data analysis library providing several data access patterns. Almost all operations with nmst are carried out with pandas [DataFrames](https://pandas.pydata.org/docs/user_guide/dsintro.html#dataframe).
- - [numpy](https://numpy.org/), a lower-level data manipulation library known for providing multi-dimesional arrays, which pandas is built upon.
+ - [numpy](https://numpy.org/), used by pandas for lower-level array manipulation. It can provide better performance in certain cases
+ - [pywebview](https://pywebview.flowrl.com/), which renders HTML in a GUI window and is used for displaying DataFrames as tables.
 
 There are many ways to go about this; perhaps the simplest is to use [pip](https://pip.pypa.io/en/latest/) with the command `pip install -r requirements.txt`.
 
